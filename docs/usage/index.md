@@ -17,7 +17,7 @@ Pyodide with {js:func}`~globalThis.loadPyodide`.
     <script type="text/javascript">
       async function main(){
         let pyodide = await loadPyodide();
-        console.log(pyodide.runPython("1 + 2"));
+        console.log(pyodide.runPython("1+1"));
       }
       main();
     </script>
@@ -92,11 +92,9 @@ arguments, see below.
 It is now possible to install the
 [Pyodide npm package](https://www.npmjs.com/package/pyodide) in Node.js. To
 follow these instructions you need at least Pyodide 0.21.0.
-You can explicitly ask npm to use
-the alpha version:
 
 ```
-$ npm install "pyodide@>=0.21.0-alpha.2"
+$ npm install "pyodide@>=0.21.0"
 ```
 
 Once installed, you can run the following simple script:
@@ -182,3 +180,35 @@ If you also don't want the `ExperimentalWarning`, you can use
    file-system.md
    service-worker.md
 ```
+
+## Deno (experimental)
+
+```{note}
+The following instructions have been tested with Deno 1.33.1.
+Deno usage is considered experimental until support is verified with the pyodide test suite.
+```
+
+It is now possible to install the
+[Pyodide npm package](https://www.npmjs.com/package/pyodide) in Deno using Deno's support for [npm specifiers](https://deno.com/manual@v1.33.1/node/npm_specifiers). To
+follow these instructions you need to use at least Pyodide 0.23.2.
+
+### Deno Hello World
+
+```ts
+// hello_python.ts
+import pyodideModule from "npm:pyodide/pyodide.js";
+const { loadPyodide } = pyodideModule;
+
+const pyodide = await loadPyodide();
+const result =  await pyodide.runPythonAsync("1+1");
+console.log("Python says that 1+1 =", result);
+```
+
+```
+$ deno run --node-modules-dir --allow-read=. hello_python.ts
+TODO insert example output
+TODO check permissions needed, wonder if it works without the --node-modules-dir flag
+TODO the micropip docs say not cached, but seem to be.. https://micropip.pyodide.org/en/v0.2.2/project/api.html#micropip.install
+```
+
+
